@@ -14,6 +14,9 @@ import (
 	"github.com/danos/utils/natsort"
 	"strings"
 	"text/tabwriter"
+    "runtime"
+    "os"
+    "time"
 )
 
 const cfgPath = `Configuration path: `
@@ -24,9 +27,40 @@ type CommandInval struct {
 	Fail string
 }
 
+func printStackToFile() {
+    // Create a slice to hold the stack trace
+    const size = 1024
+    buf := make([]byte, size)
+    
+    // Capture the stack trace
+    n := runtime.Stack(buf, true)
+    
+    // Define the file name with a timestamp to avoid overwriting
+    fileName := fmt.Sprintf("/tmp/stacktrace_%d.log", time.Now().Unix())
+    
+    // Open the file for writing (creates a new file or truncates an existing file)
+    file, err := os.Create(fileName)
+    if err != nil {
+        fmt.Printf("Error creating file: %v\n", err)
+        return
+    }
+    defer file.Close() // Ensure the file is closed when the function exits
+    
+    // Write the stack trace to the file
+    _, err = file.Write(buf[:n])
+    if err != nil {
+        fmt.Printf("Error writing to file: %v\n", err)
+        return
+    }
+    
+    // Optionally print the file path to the console
+    fmt.Printf("Stack trace written to: %s\n", fileName)
+}
+
 func (e *CommandInval) Error() string {
 	if len(e.Path) == 0 {
-		return fmt.Sprintf("EZ: Invalid command: [%s]", e.Fail)
+        printStackToFile()
+		return fmt.Sprintf("EZ3: Invalid command: [%s]", e.Fail)
 	}
 	return fmt.Sprintf("EZ2: Invalid command: %s [%s]", strings.Join(e.Path, " "), e.Fail)
 }
