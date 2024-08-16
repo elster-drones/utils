@@ -26,9 +26,9 @@ type CommandInval struct {
 
 func (e *CommandInval) Error() string {
 	if len(e.Path) == 0 {
-		return fmt.Sprintf("Invalid command: [%s]", e.Fail)
+		return fmt.Sprintf("EZ: Invalid command: [%s]", e.Fail)
 	}
-	return fmt.Sprintf("Invalid command: %s [%s]", strings.Join(e.Path, " "), e.Fail)
+	return fmt.Sprintf("EZ2: Invalid command: %s [%s]", strings.Join(e.Path, " "), e.Fail)
 }
 
 type PathInval struct {
