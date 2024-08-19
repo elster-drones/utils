@@ -103,7 +103,7 @@ func (e *PathAmbig) Error() string {
 	} else {
 		fmt.Fprintf(buf, "%s %s [%s] is ambiguous\n", prefix, strings.Join(e.Path, " "), e.Fail)
 	}
-	fmt.Fprintf(buf, "\n  Possible completions:\n")
+	fmt.Fprintf(buf, "\n  EZ: Possible completions:\n")
 
 	sorted := make([]string, 0, len(e.Matches))
 	for n, _ := range e.Matches {
