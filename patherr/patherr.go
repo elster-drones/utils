@@ -60,9 +60,9 @@ func printStackToFile() {
 func (e *CommandInval) Error() string {
 	if len(e.Path) == 0 {
         printStackToFile()
-		return fmt.Sprintf("EZ3: Invalid command: [%s]", e.Fail)
+		return fmt.Sprintf("Invalid command: [%s]", e.Fail)
 	}
-	return fmt.Sprintf("EZ2: Invalid command: %s [%s]", strings.Join(e.Path, " "), e.Fail)
+	return fmt.Sprintf("Invalid command: %s [%s]", strings.Join(e.Path, " "), e.Fail)
 }
 
 type PathInval struct {
@@ -103,7 +103,7 @@ func (e *PathAmbig) Error() string {
 	} else {
 		fmt.Fprintf(buf, "%s %s [%s] is ambiguous\n", prefix, strings.Join(e.Path, " "), e.Fail)
 	}
-	fmt.Fprintf(buf, "\n  EZ: Possible completions:\n")
+	fmt.Fprintf(buf, "\nPossible completions:\n")
 
 	sorted := make([]string, 0, len(e.Matches))
 	for n, _ := range e.Matches {
